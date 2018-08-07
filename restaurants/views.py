@@ -75,7 +75,7 @@ def restaurant_list(request):
         ).distinct()
 
     favorite_list = []
-    if request.user.is_authenticated:
+    if request.user.is_staff:
         favorite_list = request.user.favoriterestaurant_set.all().values_list('restaurant', flat=True)
 
     context = {
@@ -104,7 +104,7 @@ def restaurant_detail(request, restaurant_id):
     return render(request, 'detail.html', context)
 
 def restaurant_create(request):
-    if request.user.is_anonymous:
+    if request.user.is_staff:
         return redirect('signin')
     form = RestaurantForm()
     if request.method == "POST":
